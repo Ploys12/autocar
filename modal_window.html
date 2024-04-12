@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Модальные окна</title>
+    <style>
+        /* Стили для модальных окон */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Кнопки для открытия модальных окон -->
+<button class="open-modal" data-modal-id="myModal1">Открыть модальное окно 1</button>
+<button class="open-modal" data-modal-id="myModal2">Открыть модальное окно 2</button>
+
+<!-- Модальные окна -->
+<div id="myModal1" class="modal">
+    <div class="modal-content">
+        <span class="close" data-modal-id="myModal1">&times;</span>
+        <p>Содержимое модального окна 1...</p>
+    </div>
+</div>
+
+<div id="myModal2" class="modal">
+    <div class="modal-content">
+        <span class="close" data-modal-id="myModal2">&times;</span>
+        <p>Содержимое модального окна 2...</p>
+    </div>
+</div>
+
+<script>
+    // Функция для отображения всплывающего окна
+function showModal(modalId) {
+    var modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = "block";
+    }
+}
+
+// Функция для закрытия всплывающего окна
+function closeModal(modalId) {
+    var modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Привязываем события для открытия и закрытия модальных окон
+document.addEventListener("DOMContentLoaded", function() {
+    // Получаем кнопки для открытия и закрытия модальных окон
+    var openModalButtons = document.querySelectorAll(".open-modal");
+    var closeModalButtons = document.querySelectorAll(".close-modal");
+
+    // Привязываем события для кнопок открытия модальных окон
+    openModalButtons.forEach(function(button) {
+        button.addEventListener("click", function() {
+            var modalId = this.dataset.modalId;
+            showModal(modalId);
+        });
+    });
+
+    // Привязываем события для кнопок закрытия модальных окон
+    closeModalButtons.forEach(function(button) {
+        button.addEventListener("click", function() {
+            var modalId = this.dataset.modalId;
+            closeModal(modalId);
+        });
+    });
+});
+
+// Закрываем модальное окно при клике вне его области
+window.addEventListener("click", function(event) {
+    var modals = document.querySelectorAll(".modal");
+    modals.forEach(function(modal) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    });
+});
+
+// Закрываем модальное окно при нажатии клавиши Esc
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        var modals = document.querySelectorAll(".modal");
+        modals.forEach(function(modal) {
+            modal.style.display = "none";
+        });
+    }
+});
+
+</script>
+
+</body>
+</html>
